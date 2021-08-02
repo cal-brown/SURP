@@ -1,5 +1,5 @@
-1 Abby 1
-2 Brian 0
-3 Connor 1
-4 Daniel 0
-5 Elliot 0
+1 Abby 0 0
+2 Brian 0 0
+3 Connor 0 0
+4 Daniel 0 1
+5 Elliot 0 0
