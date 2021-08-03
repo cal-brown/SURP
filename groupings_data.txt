@@ -1,3 +1,0 @@
-1 Yosemite dorm [1,2,3,4]
-2 CPE_101 class [1,2,5]
-3 Sailing_Club club [3,4]
