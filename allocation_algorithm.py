@@ -1,5 +1,6 @@
 import heapq
 import time
+from helper import *
 
 def allocate_from_file(filename):
     a = readInputs("input/{}.txt".format(filename))
@@ -38,49 +39,12 @@ def find_next_center(center_pointer, center_capacities, daily_allocation):
         ptr = (ptr+1)%len(center_capacities)
     return ptr
 
-def readInputs(filename):
-    f = open(filename, "r")
-    lines = f.readlines()
-    vaccine_supply = int(lines[0].strip())
-    center_capacities = list(map(lambda x: int(x), lines[1].strip().split(" ")))
-    days = int(lines[2].strip())
-    individuals = list(map(lambda x: Ind(x[0], int(x[1])), map(lambda x: x.strip().split(" "), lines[3:])))
-    return AllocationInputs(vaccine_supply, center_capacities, days, individuals)
-
-class Ind:
-    def __init__(self, ind_id, risk_score):
-        self.ind_id = ind_id
-        self.risk_score = risk_score
-
-    def __lt__(self, other):
-        if (self.risk_score > other.risk_score):
-            return True
-        return False
-    
-    def __eq__(self, other):
-        if (self.risk_score == other.risk_score):
-            return True
-        return False
-
-    def __repr__(self):
-        return "I:" + self.ind_id + " R:" + str(self.risk_score)
-
-class AllocationInputs:
-    def __init__(self, vaccine_supply, center_capacities, days, individuals):
-        self.vaccine_supply = vaccine_supply
-        self.center_capacities = center_capacities
-        self.days = days
-        self.individuals = individuals
-
-    def __repr__(self):
-        return "Supply: {}, days: {}, center_capacities: {},\
-            individual: {}".format(self.vaccine_supply, self.days, self.center_capacities, self.individuals)
-
 def main():
     start = time.time()
     #print(allocate_from_file("20000v_30d_5c_25000i"))
-    print(allocate_from_file("80v_5d_3c_100i"))
+    #print(allocate_from_file("80v_5d_3c_100i"))
     #print(allocate_from_file("800v_10d_4c_1000i"))
+    print(allocate_from_file("cal_poly_25000v_40d_2c"))
     end = time.time()
     print(f"Runtime of the program is {end - start}")
 

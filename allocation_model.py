@@ -1,6 +1,7 @@
 import gurobipy as gp
 from gurobipy import GRB
-from allocation_algorithm import *
+from helper import *
+import time
 
 def allocation_model(vaccine_supply, center_capacities, days, individuals, lp_name):
     m = gp.Model('RAP')
@@ -22,9 +23,9 @@ def allocation_model(vaccine_supply, center_capacities, days, individuals, lp_na
     m.write('lp/' + lp_name +'.lp')
     m.optimize()
     result = ''
-    for v in m.getVars():
-        if v.x > 1e-6:
-            result +=  '{} {}\n'.format(v.varName, v.x)
+    #for v in m.getVars():
+        #if v.x > 1e-6:
+            #result +=  '{} {}\n'.format(v.varName, v.x)
     result += 'Total score: {}'.format(m.objVal)
     return result
 
@@ -33,8 +34,12 @@ def allocate_from_file(filename):
     return allocation_model(a.vaccine_supply, a.center_capacities, a.days, a.individuals, filename)
 
 def main():
-    print(allocate_from_file("80v_5d_3c_100i"))
-    print(allocate_from_file("800v_10d_4c_1000i"))
+    start = time.time()
+    #print(allocate_from_file("80v_5d_3c_100i"))
+    print(allocate_from_file("cal_poly_25000v_40d_2c"))
+    #print(allocate_from_file("20000v_30d_5c_25000i"))
+    end = time.time()
+    print(f"Runtime of the program is {end - start}")
 
 if __name__ == "__main__":
     main()
