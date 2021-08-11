@@ -15,7 +15,7 @@ def allocation_model(vaccine_supply, center_capacities, days, individuals, time_
         for j in range(len(center_capacities)):
             for i in individuals:
                 for l in range(1,3):
-                    score_dict[(i.ind_id, j, k)] = i.risk_score*((2*days-k)/(2*days))
+                    score_dict[(i.ind_id, j, k, l)] = i.risk_score*((2*days-k)/(2*days))
     combinations, scores = gp.multidict(score_dict)
     x = m.addVars(combinations, vtype=GRB.BINARY, name="assign")
     const_1 = m.addConstr((x.sum() <= vaccine_supply), name="supply")
@@ -35,7 +35,7 @@ def allocation_model(vaccine_supply, center_capacities, days, individuals, time_
 
 def allocate_from_file(filename):
     a = readInputs("input/{}.txt".format(filename))
-    return allocation_model(a.vaccine_supply, a.center_capacities, a.days, a.individuals, 5, filename)
+    return allocation_model(a.vaccine_supply, a.center_capacities, a.days, a.individuals, 2, filename)
 
 def main():
     print(allocate_from_file("80v_5d_3c_100i"))
