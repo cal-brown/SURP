@@ -1,2 +1,3 @@
-algorithm average time: 0.6755210399627686, objective score: 1444961.9137930975
+number of runs: 1
+algorithm average time: 0.6716258525848389, objective score: 1444961.9137930975
 model average time: 0.0, objective score: 0.0
