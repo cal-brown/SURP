@@ -1,0 +1,2 @@
+algorithm average time: 0.4008152008056641, objective score: 79631.96500000011
+model average time: 0.0, objective score: 0.0

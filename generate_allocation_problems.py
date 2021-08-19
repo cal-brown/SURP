@@ -1,28 +1,42 @@
 import random
 from risk_scores import calculate_risk
+from helper import *
 
 random.seed(1)
 
-def generate_problem(vaccine_supply, days, num_centers, cc_range, num_individuals, risk_range):
-    f = open("input/{}v_{}d_{}c_{}i.txt".format(vaccine_supply, days, num_centers, num_individuals), "w")
-    f.write("{}\n".format(vaccine_supply))
-    for i in range(num_centers):
-        f.write("{} ".format(random.randrange(cc_range[0], cc_range[1])))
-    f.write("\n{}\n".format(days))
-    for i in range(num_individuals):
-        f.write("{} {}\n".format(i, random.randrange(risk_range[0], risk_range[1])))
+def generate_scenario(days, supply_range, dpv, tbd, num_ctrs, cc_range, num_inds, risk_range):
+    ds = []
+    ccs = []
+    inds = []
+    for i in range(days):
+        ds.append(random.randrange(supply_range[0], supply_range[1]))
+    for i in range(num_ctrs):
+        ccs.append(random.randrange(cc_range[0], cc_range[1]))
+    for i in range(num_inds):
+        inds.append(Ind(i, random.randrange(risk_range[0], risk_range[1])))
+    if tbd == -1:
+        filename = "input/one_dose_{}days{}dpv{}ctrs{}inds.txt".format(days, dpv, num_ctrs, num_inds)
+    else:
+        filename = "input/two_dose_{}days{}dpv{}tbd{}ctrs{}inds.txt".format(days, dpv, tbd, num_ctrs, num_inds)
+    AllocationInputs(ds, days, dpv, tbd, ccs, inds).write(filename)
         
-def generate_cal_poly_scenario(vaccine_supply, days, num_centers, cc_range):
-    f = open("input/cal_poly_{}v_{}d_{}c.txt".format(vaccine_supply, days, num_centers), "w")
-    f.write("{}\n".format(vaccine_supply))
-    for i in range(num_centers):
-        f.write("{} ".format(random.randrange(cc_range[0], cc_range[1])))
-    f.write("\n{}\n".format(days))
-    individuals = calculate_risk("input/cal_poly_individuals.txt")
-    for ind in individuals:
-        f.write("{} {}\n".format(ind.ind_id, ind.risk_score))
+def generate_cal_poly_scenario(days, supply_range, dpv, tbd, num_ctrs, cc_range):
+    ds = []
+    ccs = []
+    inds = []
+    for i in range(days):
+        ds.append(random.randrange(supply_range[0], supply_range[1]))
+    for i in range(num_ctrs):
+        ccs.append(random.randrange(cc_range[0], cc_range[1]))
+    inds = calculate_risk("input/cal_poly_individuals.txt")
+    if tbd == -1:
+        filename = "input/cp_one_dose_{}days{}dpv{}ctrs.txt".format(days, dpv, num_ctrs)
+    else:
+        filename = "input/cp_two_dose_{}days{}dpv{}tbd{}ctrs.txt".format(days, dpv, tbd, num_ctrs)
+    AllocationInputs(ds, days, dpv, tbd, ccs, inds).write(filename)
 
-#generate_problem(800, 10, 4, (15,25), 1000, (1, 22))
-generate_cal_poly_scenario(25000, 40, 2, (250,251))
+#generate_scenario(10, (80,81), 5, -1, 4, (18,22), 1200, (1, 22))
+generate_cal_poly_scenario(40, (625, 626), 10, -1, 2, (315,330))
+generate_cal_poly_scenario(80, (625, 626), 10, 21, 2, (315,330))
 
     

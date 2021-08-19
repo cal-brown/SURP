@@ -18,24 +18,47 @@ IN_PERSON_EXTRACURRICULAR = .10
 MEDICAL_WORKERS = .02
 FRONTLINE_WORKERS = .10
 
-STUDENT_RATES = [.08, .01, .35, .006, .075, .042, .01, 0, .02, .10, .38, .15, .10]
-AVERAGE_RATES = [.14, .095, .736, .046, .496, .159, .046, .3, .02, .10, 0, .15, 0]
+STUDENT_RATES = [.08, .01, .22, .006, .075, .042, .01, .001, .005, .10, .38, .15, .10]
+AVERAGE_RATES = [.14, .095, .39, .046, .496, .159, .046, .152, .019, .10, 0, .15, .005]
 
-def generate_individuals(filename):
-    f = open("input/{}.txt".format(filename), "w")
+def generate_student_population(num_students):
+    f = open("input/{}students.txt".format(num_students), "w")
     individuals = []
-    for i in range(NUM_STUDENTS):
-        ind_id = "student_{}".format(i)
-        line = ind_id
+    for i in range(num_students):
+        line = str(i)
         for j in range(13):
             if (random.random() < STUDENT_RATES[j]):
                 line += " 1"
             else:
                 line += " 0"
         f.write(line + "\n")
-    for i in range(NUM_FACULTY):
-        ind_id = "faculty_{}".format(i)
-        line = ind_id
+    f.close()
+
+def generate_general_population(num_people):
+    f = open("input/{}people.txt".format(num_people), "w")
+    for i in range(num_people):
+        line = str(i)
+        for j in range(13):
+            if (random.random() < AVERAGE_RATES[j]):
+                line += " 1"
+            else:
+                line += " 0"
+        f.write(line + "\n")
+    f.close()
+
+def generate_mixed_population(num_students, num_faculty):
+    f = open("input/{}students_{}faculty.txt".format(num_students, num_faculty), "w")
+    individuals = []
+    for i in range(num_students):
+        line = "student_{}".format(i)
+        for j in range(13):
+            if (random.random() < STUDENT_RATES[j]):
+                line += " 1"
+            else:
+                line += " 0"
+        f.write(line + "\n")
+    for i in range(num_faculty):
+        line = "faculty_{}".format(i)
         for j in range(13):
             if (random.random() < AVERAGE_RATES[j]):
                 line += " 1"
@@ -45,6 +68,8 @@ def generate_individuals(filename):
     f.close()
 
 if __name__=="__main__":
-    generate_individuals("cal_poly_individuals")
-    
+    #generate_cal_poly_individuals("cal_poly_individuals")
+    generate_general_population(10)
+    generate_student_population(10)
+    generate_mixed_population(10,10)
 
